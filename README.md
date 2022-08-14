@@ -208,3 +208,27 @@ console.log(sum); // 59
 ### 40. Understand what happened when you use arithmetic operator with non-number type ?
 
 - Kêt quả sẽ là một chuỗi gộp 2 số hạng lại
+
+# Checklist 2
+
+### 1. Understand what is expressions ? Provide an example of expressions ?
+
+- Bất kì mã nào được đánh giá là một giá trị đều được coi là biểu thức
+- VD: 10 được đánh giá là một số trong js được coi là một biểu thức
+
+### 2. Understand what is statement ? Provide an example of statement ?
+
+- Các câu lệnh được sử dụng trong JavaScript để kiểm soát luồng chương trình của nó
+- VD: break, continue, for-in, for-of, ...
+
+### 3. Provide an example using do-while ?
+
+```js
+let i = 0;
+do {
+  console.log("Counting");
+  i++;
+} while (i < 10);
+```
+
+### 4.
