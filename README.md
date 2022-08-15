@@ -231,4 +231,36 @@ do {
 } while (i < 10);
 ```
 
-### 4.
+### 4. Bài tập Reversing an array
+
+```js
+let arrayValue = [1, 2, 3, 4, 5];
+
+function reversingArray(arr) {
+  if(arr.length <== 0) return;
+  const tmpArr = [...arr];
+  for (let i = 0; i < tmpArr.length; i++) {
+    arr[i] = tmpArr[tmpArr.length - 1 - i];
+  }
+  return arr;
+}
+
+reversingArray(arrayValue);
+console.log(arrayValue); // [5, 4, 3, 2, 1]
+```
+
+# Phần thắc mắc
+
+### 5. Side Effect
+
+- Side Effects nghĩa là đang nói tới một chương trình phần mềm, khi có một tác động xảy ra, nó dẫn tới việc dữ liệu của chương trình bị thay đổi.
+
+VD:
+
+- Một hàm submitLogin. Sau khi user nhập username và pass xong nhấn submit thì sẽ trigger hàm submitLogin.
+  - Trong hàm submitLogin này sẽ làm những việc này:
+    - Submit thông tin lên server và nhận thông tin trả về (1)
+    - Nếu trạng thái thành công redirect sang Dashboard (2)
+    - Nếu trạng thái thất bại sẽ hiển thị lỗi (3)
+
+=> Ở đây theo như tên gọi submitLogin thì công việc chính của nó là (1). (2) và (3) là side effect vì nó không phải là nhiệm vụ chính của hàm và phải dựa vào kết quả từ (1)
