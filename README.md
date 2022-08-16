@@ -408,3 +408,240 @@ Output: 2 4 12 10
 - Bao đóng dữ liệu => Dữ liệu an toàn hơn, không bị trừng lặp tên biến, không thể bị sửa dữ liệu tại browser
 
 ### 14. What is global namespaces ?
+
+- Khi khai báo một biến có phạm vi global thì nó sẽ chuyển đến một nơi được gọi là global namespaces. global namespaces cho phép các biến có thể truy cập được từ bất kì phạm vi nào trong chương trình. Các biến này sẽ vẫn ở đó cho đến khi chương trình này kết thúc
+
+### 15. Understand 2 problems when you want to hide data ?
+
+- Khi ẩn dữ liệu thì ta không thể thao tác trực tiếp với dữ liệu theo cách thông thường
+- Lập trình viên phải viết code dài hơn, phức tạp hơn
+
+### 16. Understand Invoking Function Expressions Immediately ?
+
+- Gọi hàm ngay lập tức (Immediately Invoked Function Expression) là việc khai báo một hàm và thực thi nó ngay lập tức
+
+```js
+(function () {
+  //code here
+})();
+```
+
+### 17. Understand what is block scope ?
+
+- Block scope là phạm vi khối, các biến chỉ có thể truy cập được ở phạm vi khối như {}, if, else, while, for, ...
+- VD: Khai báo biến bằng từ khóa const, let
+
+### 18. Understand let and const keyword ?
+
+- let và const đều có phạm vi khối (block scope), đều được sử dụng để khai báo một biến. Chúng đều được hoisting, tuy nhiên khi hoisting nó không được gán một giá trị mặc định ban đầu
+- tuy nhiên đối với biến được khai báo bằng let thì nó có thể được gán lại giá trị, còn đối với cosnt thì không bởi vì từ khóa const là khai báo biến là hằng số (immutable)
+
+=> Việc sử dụng biến được khai báo bằng từ khóa let, const dẫn tới một lỗi như "Cần khởi tạo giá trị trước khi sử dụng biến"
+
+### 19. Understand what happened when you try to use a variable before its declaration ?
+
+- let và const đều được hoisting, tuy nhiên khi hoisting nó không được gán một giá trị mặc định ban đầu
+
+=> Việc sử dụng biến được khai báo bằng từ khóa let, const dẫn tới một lỗi như "Cần khởi tạo giá trị trước khi sử dụng biến"
+
+- Đối với biến được khai báo bằng từ khóa var thì khi sử dụng biến trước khi khai báo nó sẽ có giá trị là undefined do tính chất hoisting mặc định của Javascript
+
+### 20. Understand what happened when you try to use a function before its declaration ?
+
+- Function lại chia ra làm 2 loại
+  - Function declare (được hoising) => Có thể sử dụng hàm trước khi khai báo
+  - Function expression (không được hoisting) => Không thể sử dụng hàm trước khi khai báo
+
+### 21. Understand what the compiler does when hoisting?
+
+- Nó sẽ chỉ đưa khai báo lên đầu phạm vi trước khi thực thi, còn việc gán giá trị mặc định sẽ phụ thuộc vào cách thức khai báo
+
+### 22. Understand the rules for hoisting ?
+
+- EM đã trình bày ở những câu trên
+
+### 23. "What is the output of following code:
+
+```js
+foo();
+function foo() {
+  console.log(a);
+}
+var a = 20;
+```
+
+=> Đầu ra sẽ là undefined
+
+- Giải thích: Do hàm foo thuộc dạng function declaretion nên nó được hoisting, khi gọi hàm foo() nó sẽ thực thi, bên trong nó in ra biến a, tuy nhiên trong phạm vi hàn không hề có biến a này, nên nó sẽ ra phạm vi bên ngoài, lúc này do biến a được hoisting nên nó sẽ có giá trị khởi tạo là undefined
+
+### 24. What is the definition of Closure Scope mentioned in the book ?
+
+- Việc một hàm nhớ nơi nó được sinh ra và có thể truy cập được tham số, biến của hàm cha
+
+### 25. What is the problem with loop and closure ?
+
+```js
+const exampleFunctions = [];
+for (var i = 0; i < 3; i++) {
+  exampleFunctions.push(() => {
+    console.log(i);
+  });
+}
+for (var j = 0; j < 3; j++) {
+  exampleFunctions[j](); // 3, 3, 3
+}
+```
+
+### 26. What is the output of following code ?
+
+```js
+for (var i = 1; i <= 5; i++) {
+  setTimeout(function timer() {
+    console.log(i);
+  }, i * 1000);
+}
+```
+
+=> Sau khoảng thời gian quy định nó sẽ in ra số 6
+
+### 27. "What is the output of following code?
+
+```js
+var fn;
+function foo() {
+  var a = 2;
+  function baz() {
+    console.log(a);
+  }
+  fn = baz;
+}
+function bar() {
+  fn();
+}
+foo(); // 2
+bar(); // 2
+```
+
+### 28. Dạng câu hỏi: "What is the output?"
+
+```js
+function empty(o) {
+  o = null;
+}
+var x = [];
+empty(x);
+console.log(x); // [] Bởi vì sau khi gọi hàm empty(x) giá trị của x chỉ được thay đổi bên trong phạm vi của hàm
+```
+
+```js
+function swap(a, b) {
+  [a, b] = [b, a];
+}
+var x = 1;
+var y = 2;
+swap(x, y);
+console.log(x); // 1 (giá trị của x chỉ được thay đổi bên trong phạm vi của hàm)
+```
+
+### 29. Write a function addf that adds from 2 invocations.
+
+Example: addf(3)(4); // 7
+
+- CODE
+
+```js
+function addf(x) {
+  return function (y) {
+    console.log(x + y);
+  };
+}
+addf(5)(7);
+```
+
+### 30. Write a function liftf that takes a binary function, and makes it callable with 2 invocations. Example:
+
+```js
+var addf = liftf(add);
+addf(3)(4); // 7
+liftf(mul)(5)(6); // 30
+```
+
+- CODE
+
+```js
+function liftf(expressMath) {
+  return function (x) {
+    return function (y) {
+      if (expressMath === "add") {
+        console.log(x + y);
+      }
+      if (expressMath == "mul") {
+        console.log(x * y);
+      }
+    };
+  };
+}
+
+liftf("add")(4)(3); // 7
+liftf("mul")(4)(3); // 12
+```
+
+### 31. Write a function curry that takes a binary function and an argument, and returns a function that can take a second arguments. Example:
+
+```js
+var add3 = curry(add, 3);
+add3(4); // 7
+curry(mul, 5)(6); // 30
+```
+
+- CODE
+
+```js
+function curry(expressMath, x) {
+  return function (y) {
+    if (expressMath === "add") {
+      console.log(x + y);
+    }
+    if (expressMath === "mul") {
+      console.log(x * y);
+    }
+  };
+}
+
+var add3 = curry("add", 3);
+add3(4); // 7
+curry("mul", 5)(6); // 30
+```
+
+### 32. Write a fromTo function that return a generator that produce values in a range. Example:
+
+```js
+var index = fromTo(0, 3);
+index(); // 0
+index(); // 1
+index(); // 2
+index(); // undefined
+```
+
+- CODE
+
+```js
+function fromTo(from, to) {
+  let count = from;
+  return function () {
+    console.log(count);
+    if (count < to - 1) {
+      count++;
+    } else {
+      count = undefined;
+    }
+  };
+}
+var index = fromTo(0, 3);
+index(); // 0
+index(); // 1
+index(); // 2
+index(); // undefined
+index(); // undefined
+index(); // undefined
+```

@@ -1,9 +1,18 @@
-var d = 10;
-function foo(a) {
-	var b = a * 2;
-	function bar(c) {                  
-		console.log( a, b, c, d);
+function fromTo(from, to) {
+	let count = from;
+	return function() {
+		console.log(count)
+		if(count < to - 1) {
+			count++;
+		}else {
+			count = undefined;
+		}
 	}
-	bar(b * 3);
 }
-foo( 2 );
+var index = fromTo(0, 3);
+index(); // 0
+index(); // 1
+index(); // 2
+index(); // undefined
+index(); // undefined
+index(); // undefined
