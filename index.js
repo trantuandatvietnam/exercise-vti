@@ -1,14 +1,10 @@
 class Person {
-	constructor(fullname, age, weight) {
-		this.fullname = fullname;
-		this.age = age;
-		this.weight = weight;
+	constructor(name) {
 	}
-	eating() {
-		console.log("Person is eating");
+	introduceSelf() {
+	  console.log(`Hi! I'm ${this.name}`);
 	}
 }
+const dat = new Person();
 
-const dat = new Person("Trần Tuấn Đạt", 20, 50);
-
-console.log(dat);
+console.log(dat)
