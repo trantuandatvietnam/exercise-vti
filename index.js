@@ -1,18 +1,14 @@
-function fromTo(from, to) {
-	let count = from;
-	return function() {
-		console.log(count)
-		if(count < to - 1) {
-			count++;
-		}else {
-			count = undefined;
-		}
+class Person {
+	constructor(fullname, age, weight) {
+		this.fullname = fullname;
+		this.age = age;
+		this.weight = weight;
+	}
+	eating() {
+		console.log("Person is eating");
 	}
 }
-var index = fromTo(0, 3);
-index(); // 0
-index(); // 1
-index(); // 2
-index(); // undefined
-index(); // undefined
-index(); // undefined
+
+const dat = new Person("Trần Tuấn Đạt", 20, 50);
+
+console.log(dat);

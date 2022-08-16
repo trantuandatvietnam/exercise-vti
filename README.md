@@ -645,3 +645,67 @@ index(); // undefined
 index(); // undefined
 index(); // undefined
 ```
+
+### 31. Tổng quan về lập trình hướng đối tượng
+
+- JavaScript là ngôn ngữ lập trình hướng đối tượng (OOP) vì nó đáp ứng các tính chất của lập trình hướng đối tượng như:
+
+  - Tính đóng gói (Encapsulation)
+  - Tính trừu tượng (Abstraction)
+  - Tính kế thừa (Inheritance)
+  - Tính đa hình (Polymorphism)
+
+- Ví dụ:
+
+```js
+class Person {
+  constructor(fullname, age, weight) {
+    this.fullname = fullname;
+    this.age = age;
+    this.weight = weight;
+  }
+  eating() {
+    console.log("Person is eating");
+  }
+}
+
+const dat = new Person("Trần Tuấn Đạt", 20, 50);
+
+console.log(dat);
+```
+
+### 32. Async, Await
+
+- Async / Await là một tính năng của JavaScript giúp chúng ta làm việc với các hàm bất đồng bộ theo cách thú vị hơn và dễ hiểu hơn. Nó được xây dựng trên Promises và tương thích với tất cả các Promise dựa trên API. Trong đó:
+  - Async: Khai báo một hàm bất đồng bộ tự động biến đổi một hàm thông thường thành một Promise.
+  - Khi gọi tới hàm async nó sẽ xử lý mọi thứ và được trả về kết quả trong hàm của nó.
+  - Async cho phép sử dụng Await.
+  - Nếu trong hàm async có trả về dữ liệu thì khi gọi hàm này chúng ta cần thêm await đằng trước nó, nếu không giá trị nhận được sẽ là undefined
+- Await: Tạm dừng việc thực hiện các hàm async
+  - Khi được đặt trước một Promise, nó sẽ đợi cho đến khi Promise kết thúc và trả về kết quả.
+  - Await chỉ làm việc với Promises, nó không hoạt động với callbacks.
+  - Await chỉ có thể được sử dụng bên trong các function async.
+
+### 33. Event Loop
+
+- Thứ nhất cần biết: Javascript hoạt động đơn luồng (Nghĩa là chỉ một nhiệm vụ được thực thi một lúc),
+  trong trường hợp có một task 30s, 1 task 15s => Cần tới 45s để 2 task này thực hiện xong.
+  => May mắn trình duyệt đưa cho chúng ta chức năng đó là Web API bao gồm DOM
+  API và Http Request,… giúp chúng ta tạo nên các tác vụ chạy bất đồng bộ, non-blocking
+- Cơ chế hoạt động của nó như sau:
+  - Khi một hàm được gọi trong Js, nó sẽ được lưu vào một vùng nhớ gọi là call stack (call stack
+    là một phần của Js engine, không phải của browser), nói về stack chúng ta nhớ ngay đến cơ chế
+    Last in first out. Sau khi hàm đã được đẩy vào call stack, nó trả về giá trị thực thi sau đó
+    được lấy ra khỏi stack để đẩy hàm tiếp theo vào. Việc phản hồi hay giá trị trả về như các hàm
+    setTimeout được cung cấp bởi Web API. Các hàm này cho phép chúng ta thực hiện các hàm callback,
+    các hàm callback này được đẩy vào vùng Web API là nơi chứa các hàm mà Web API cung cấp ở đây nó
+    sẽ chờ thời gian được set ví dụ 1 giây sau đồng thời phản hồi lại với stack pop hàm setTimeout
+    ra khỏi Call Stack.
+  - Trong Web API, có một đồng hồ tính giờ được chạy ngay khi các hàm setTimeout, setInterval, Ajax, Dom events
+    được đẩy vào, các hàm callback được truyền vào lúc này sẽ không nhảy qua Call Stack ngay mà nó được chuyển
+    vào một hàng đợi Queue chờ được gọi lại.
+  - Hàm callback đã được đẩy vào queue vậy khi nào nó được gọi nếu như đầu bài chúng ta đã nói hàm chỉ thực hiện
+    trong vùng Call Stack? Đây là lúc Event Loop hoạt động, Event Loop có một nhiệm vụ duy nhất là đồng bộ Queue
+    với Call Stack. Nếu Call Stack trống thì chúng ta gọi hàm trong Queue, Queue hoạt động theo cơ chế FIFO nên hàm nào nằm trong hàng đợi trước thì được gọi thực thi trong Call Stack trước. Lưu ý lúc này Call Stack trống thì các hàm trong Queue mới được Event Loop lấy lên và đẩy vào Call Stack để thực thi.
+  - Hàm callback sau khi đẩy vào Call Stack thì nó thực thi chờ trả về giá trị và lấy ra khỏi Call Stack cho
+    việc thực hiện các hàm tiếp theo.
