@@ -264,3 +264,147 @@ VD:
     - Nếu trạng thái thất bại sẽ hiển thị lỗi (3)
 
 => Ở đây theo như tên gọi submitLogin thì công việc chính của nó là (1). (2) và (3) là side effect vì nó không phải là nhiệm vụ chính của hàm và phải dựa vào kết quả từ (1)
+
+# Javascript Advandce
+
+### 1. Understand that JavaScript is a compiled language ?
+
+- Ngôn ngữ JavaScript thực sự được biên dịch, nó gần với được Biên dịch hơn là thông dịch. Nó được biên dịch mọi lúc Bởi vì Sau khi compilation quá trình tạo ra một mã byte nhị phân, quá trình JS virtual machinesẽ thực thi nó.
+- Giải thích thêm câu trả lời này ở phần trả lời của câu hỏi bên dưới.
+
+### 2. Understand how JavaScript compile code ? (3 steps)
+
+- Step 1: Tokenizing (Mã hóa)
+  - Đây là giai đoạn đầu tiên. Ở giai đoạn này nó sẽ quét qua source code và chia nhỏ source code thành các mã có ý nghĩa được gọi là tokens
+    - VD: `var myNumber = 7;` có thể được mã hóa thành `var, myNumber, =, 7, ;`
+- Step 2: Parsing (Phân tích cú pháp)
+  - Đây là giai đoạn thứ hai của quá trình. Ở giai đoạn này nó sẽ lấy mảng tokens làm đầu vào và biến nó trở thành một cây gồm các phần tử lồng nhau. Cây này được gọi là `Abstract Syntax Tree(AST).`
+- Step 3: Code-Generation.
+
+  - Trong giai đoạn này, `AST` sử dụng làm đầu vào và mã byte thực thi tạo ra bởi môi trường - nơi code sẽ chạy. Sau đó, mã byte thực thi được tinh chỉnh / chuyển đổi thêm nữa bằng trình biên dịch JIT (Just-In-Time) tối ưu hóa.
+
+=> Dưới đây là hình minh họa cách mã JS biên dịch
+
+![image info](./imgs/js%20complied.avif)
+
+### 3. Understand how many cast of character in JavaScript ?
+
+- EM chưa hiểu câu hỏi lắm
+
+### 4. Understand 2 distinct actions are taken for a variable assigment (var a = 2) ?
+
+- Thực chất câu lệnh trên đang thực hiện hai hành động
+  - Hành động thứ nhất là khai báo biến: `var a;`
+  - Hành động thứ hai là gán giá trị cho biến `a = 2`
+
+### 5. Understand LHS and RHS ?
+
+- Tham chiếu LHS (Left-hand side - phía bên trái) là tham chiếu trong đó trình biên dịch cố gắng truy cập vùng chứa , hoặc cụ thể hơn, địa chỉ được đại diện bởi biến.
+- Tham chiếu RHS (Right-hand side - phía bên phải) là tham chiếu mà trình biên dịch cố gắng tìm giá trị được giữ bởi biến.
+- Ví dụ minh họa
+  - VD1: Với đoạn code `console.log( a );` Tham chiếu tới a là tham chiếu RHS bởi vì ta không gán gì cho a cả. Engine đơn giản là tìm kiếm để lấy ra giá trị của a ,và sau đó truyền vào như là tham số cho console.log(..) </br>
+    Ngược lại: a = 2; Tham chiếu tới a ở đây là LHS, bởi vì ở đây ta không thực sự quan tâm giá trị hiện tại là gì, chỉ đơn giản là muốn tìm kiếm biến và gán giá trị = 2.
+  - VD2:
+
+```js
+function foo(a) {
+  console.log(a); // 2
+}
+
+foo(2);
+```
+
+- Ở đây dòng cuối cùng gọi foo (..) thực chất là một yêu cầu tham chiếu RHS đến foo, có nghĩa là, "hãy tìm giá trị của foo, và đưa nó cho tôi." Cặp ngoặc này (..) có nghĩa là sau khi tìm thấy thì thực thi nó như 1 function. Tiếp theo tương tự như giải thích bên trên, đoạn console.log(a) cũng chứa 1 tham chiếu RHS tới a. Tuy nhiên, ở đây có tới 2 tham chiếu LHS đã bị ta bỏ qua, do nó không phải là phép gán biến explicit. Thực chất, khi truyên tham số vào cho foo (tương tự với truyền tham só vào cho console.log) đã thực hiện phép gán a = 2 nên đây cũng là 1 tham chiếu LHS
+
+### 6. Understand how Engine/Score Manager converse ?
+
+```js
+function foo(a) {
+  console.log(a); // 2
+}
+
+foo(2);
+```
+
+- Đoạn code trên được thực thi, bản chất là có một cuộc đối thoại diễn ra như sau: (NGUỒN: THAM KHẢO TẠI VIBLO)
+
+```js
+Engine: Hey Scope, tôi muốn tham chiếu RHS tới foo. Mài có biết nó ko ?
+
+Scope: Sao không, tau biết. Compiler đã định nghĩa nó vừa xong. Nó là 1 function. À đây rồi.
+
+Engine: Tuyệt, cảm ơn! OK, tôi đang thực thi foo luôn đây.
+
+Engine: Này, Scope, tau muốn tham chiếu LHS tới a, biết nó chứ ?
+
+Scope: Có. Compiler khai báo nó là một tham số cho foo. Đây rồi.
+
+Engine: Vẫn được việc như mọi khi. Cảm ơn nhiều nhé. Bây giờ, thời gian để tau gán 2 cho a.
+
+Engine: Hey, Scope, xin lỗi lại phiền mài lần nữa. Tôi cần một tìm kiếm RHS look-up đến console. Bao giờ nghe nói về nó chưa?
+
+Scope: Không vấn đề gì, Engine, đây là công việc mà. Có, tôi biết console. Anh ấy là giao diện được tích hợp sẵn. Đây rồi.
+
+Engine: Nuột. Để tau tìm log(..). OK, đây rồi, nó là một function.
+
+Engine: Yo, Phạm vi. Mài có thể giúp tau tham chiếu RHS đến a được không. Tau khi là tau không quên nó mà chỉ muốn kiểm tra lại cho chắc.
+
+Scope: Vẫn là nó, không thay đổi gì.
+
+Engine: Kool. Truyền giá trị của a, là 2, vào log (..).
+```
+
+### 7. Understand the rule for traversing nested Scope ?
+
+- EM hiểu là một biến khi được sử dụng tại một phạm vi, trước tiên Engine sẽ tìm kiếm biến đó tại chính phạm vi đó, nếu không có nó sẽ trở ra phạm vi bên ngoài, cho đến khi ra ngoài phạm vi global (Tìm được thì mới dừng lại)
+
+### 8. Understand what is lex-time ?
+
+- Bước đầu tiên của 1 trình biên dịch (với ngôn ngữ biên dịch truyền thống) là phân tích đoạn code thành những phần nhỏ (mỗi phần gọi là token), thuật ngữ chuyên môn gọi bước này là "lexing" (hay là "tokenizing"). Quá trình "lexing" sẽ khảo sát đoạn code, thêm ý nghĩa (về mặt lập trình) cho từng token (đây là kết quả của "stateful parsing"). Khái niệm này là nền tảng để hiểu "lexical scope" là gì, và thuật ngữ này đến từ đâu.
+- Việc định nghĩa "lexical scope" khá là ngoằn ngoèo, nó là ... "scope" nhưng tồn tại trong thời gian "lexing". Để đơn giản thì lexical scope được xác định vào lúc tác giả viết code, sắp xếp các variables hoặc khối code ở các vị trí nhất định. Lexical scope sẽ được giữ nguyên cho đến thời điểm "lexing" (tức là giai đoạn mà code được chia thành các phần nhỏ có ý nghĩa).
+
+### 9. Try to cheat lexical scope with eval and with ?
+
+```js
+function foo(str, a) {
+  eval(str); // đang "chơi ăn gian"!
+  console.log(a, b);
+}
+
+var b = 2;
+
+foo("var b = 3;", 1); // 1 3
+```
+
+- Tại thời điểm gọi hàm eval(..) thì chuỗi "var b = 3;" được coi như là 1 đoạn code vốn đã ở đó từ trước. Bởi trong đoạn code này có phần khai báo variable b nên lexical scope của foo(..) bị thay đổi, variable b được tạo bên trong foo(..), che đi variable b vốn được khai báo ở scope vòng tiếp theo (trường hợp này là global scope).
+- Khi hàm console.log(..) được gọi, hàm này tìm thấy cả a lẫn b bên trong scope của foo(..), nó dừng ở đó mà không hề mở rộng tìm kiếm b ở scope vòng tiếp theo. Do đó, kết quả thu được là "1 3" thay vì "1 2".
+
+### 10. "What is the output of following code:
+
+```js
+var d = 10;
+function foo(a) {
+  var b = a * 2;
+  function bar(c) {
+    console.log(a, b, c, d);
+  }
+  bar(b * 3);
+}
+foo(2);
+```
+
+Output: 2 4 12 10
+
+### 11. Understand function scope and its implications?
+
+- Scope là phạm vi của một biến được khai báo mà ta có thể truy cập được. Trước khi ES6 được ra mắt, JavaScript chỉ có 2 loại scope là: Global scope và Function scope. Sau khi ES6 ra mắt thì JavaScript có thêm Block scope nữa
+
+### 12. Understand how to hide data (variables, function) using function scope ?
+
+- Mọi biến được khai báo trong hàm thì nó đều có phạm vi hàm, bên ngoài phạm vi hàm không thể truy cập
+
+### 13. Understand benefit of hiding variables and function inside a scope ?
+
+- Bao đóng dữ liệu => Dữ liệu an toàn hơn, không bị trừng lặp tên biến, không thể bị sửa dữ liệu tại browser
+
+### 14. What is global namespaces ?

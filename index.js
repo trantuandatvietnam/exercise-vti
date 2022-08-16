@@ -1,12 +1,9 @@
-let arrayValue = [1, 2, 3, 4, 5];
-
-function reversingArray(arr) {
-    const tmpArr = [...arr];
-    for(let i = 0; i < tmpArr.length; i++) {
-        arr[i] = tmpArr[tmpArr.length - 1 - i];
-    }
-    return arr;
+var d = 10;
+function foo(a) {
+	var b = a * 2;
+	function bar(c) {                  
+		console.log( a, b, c, d);
+	}
+	bar(b * 3);
 }
-
-reversingArray(arrayValue)
-console.log(arrayValue) // [5, 4, 3, 2, 1]
+foo( 2 );
